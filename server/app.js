@@ -15,11 +15,12 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
   })
   .catch(err => console.log(err))
 
+app.use(cors())
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true
 }))
-app.use(cors())
+
 app.listen(PORT, err => {
   err ? console.log(error) : console.log('server started!')
 })
