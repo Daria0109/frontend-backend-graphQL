@@ -49,7 +49,7 @@ class MoviesTable extends React.Component {
     const { anchorEl, openDialog, data: activeElem = {} } = this.state;
 
     const { classes, data = {} } = this.props;
-
+console.log('movies', data)
     const {movies = []} = data
 
     return (
