@@ -5,4 +5,10 @@ import {moviesQuery} from './Queries'
 
 import { styles } from './styles';
 
-export default compose(withStyles(styles), graphql(moviesQuery));
+const withGraphQL = graphql(moviesQuery, {
+  options: ({name = ''}) => ({
+    variables: {name}
+  })
+})
+
+export default compose(withStyles(styles), withGraphQL);

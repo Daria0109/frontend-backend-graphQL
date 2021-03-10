@@ -13,7 +13,10 @@ const withGraphQL = compose(
     props: ({mutate}) => ({
       addMovie: movie => mutate({
         variables: movie,
-        refetchQueries: [{query: moviesQuery}]
+        refetchQueries: [{
+          query: moviesQuery,
+          variables: {name: ''}
+        }]
       })
     })
   }),
@@ -21,8 +24,16 @@ const withGraphQL = compose(
     props: ({mutate}) => ({
       updateMovie: movie => mutate({
         variables: movie,
-        refetchQueries: [{query: moviesQuery}]
+        refetchQueries: [{
+          query: moviesQuery,
+          variables: {name: ''}
+        }]
       })
+    })
+  }),
+  graphql(directorsQuery, {
+    options: ({name = ''}) => ({
+      variables: {name}
     })
   })
 

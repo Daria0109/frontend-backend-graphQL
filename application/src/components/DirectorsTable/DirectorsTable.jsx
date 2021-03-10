@@ -15,11 +15,29 @@ import CreateIcon from '@material-ui/icons/Create';
 import DirectorsDialog from '../DirectorsDialog/DirectorsDialog';
 
 import withHocs from './DirectorsTableHoc';
+import DirectorsSearch from "../DirectorsSearch/DirectorsSearch";
 
 class DirectorsTable extends React.Component {
   state = {
     anchorEl: null,
     openDialog: false,
+    name: ''
+  };
+
+  handleChange = name => (event) => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  handleSearch = (e) => {
+    const { data } = this.props;
+    const { name } = this.state;
+
+    if(e.charCode === 13) {
+      data.fetchMore({
+        variables: { name },
+        updateQuery: (previousResult, { fetchMoreResult }) => fetchMoreResult,
+      });
+    }
   };
 
   handleDialogOpen = () => { this.setState({ openDialog: true }); };
@@ -45,13 +63,16 @@ class DirectorsTable extends React.Component {
   };
 
   render() {
-    const { anchorEl, openDialog, data: activeElem = {} } = this.state;
+    const { anchorEl, openDialog, data: activeElem = {}, name } = this.state;
     const { classes, data = {} } = this.props;
     console.log('data', data)
     const {directors = []} = data
 
     return (
       <>
+        <Paper>
+          <DirectorsSearch name={name} handleChange={this.handleChange} handleSearch={this.handleSearch} />
+        </Paper>
         <DirectorsDialog open={openDialog} handleClose={this.handleDialogClose} id={activeElem.id} />
         <Paper className={classes.root}>
           <Table>
